@@ -55,14 +55,22 @@ public:
     // x konumunu xSpeed kadar azaltarak sola hareket ettirir
     Q_INVOKABLE void moveLeft()
     {
-        setX(m_x - xSpeed);
+        setX(m_x - xSpeed); // Nesneyi sola doğru xSpeed (10) kadar kaydır
+        if(m_x < minX) // Eğer konum min sınırdan daha küçükse
+        {
+            setX(minX); // Nesneyi min sınır olan 0'a sabitle
+        }
     }
 
     // QML'den çağrılabilir bir fonksiyon (Q_INVOKABLE)
     // x konumunu xSpeed kadar artırarak sağa hareket ettirir
     Q_INVOKABLE void moveRight()
     {
-        setX(m_x + xSpeed);
+        setX(m_x + xSpeed); // Nesneyi sağa doğru xSpeed (10) kadar kaydır
+        if(m_x > maxX) // Eğer konum max sınırı aşarsa
+        {
+            setX(maxX); // Nesneyi max sınır olan 1366'ya sabitle
+        }
     }
 
 signals:
@@ -77,6 +85,10 @@ private:
 
     // x yönünde hareket hızı (her hareket komutunda bu kadar piksel kaydırılır)
     double xSpeed;
+
+    double minX;
+    double maxX;
+    double bottomY;
 };
 
 #endif // CONTROLLER_H

@@ -3,9 +3,9 @@ import QtQuick.Window 2.15  // Window bileşenini ve pencere özelliklerini kull
 
 // Uygulama penceresini tanımlar
 Window {
-    width: 640             // Pencere genişliği
-    height: 480            // Pencere yüksekliği
-    visible: true          // Uygulama başlatıldığında pencere görünür olacak
+    width: 1366             // Pencere genişliği
+    height: 768             // Pencere yüksekliği yada istediğin uygun bir değer
+    visible: true           // Uygulama başlatıldığında pencere görünür olacak
     title: qsTr("Hello World")  // Pencerenin başlığı
 
     // Kırmızı renkli hareketli kutu
