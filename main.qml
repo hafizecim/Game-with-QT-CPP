@@ -30,7 +30,7 @@ Window {
                 control.moveRight();   // Sağ tuşa basılırsa C++ fonksiyonu ile sağa kay
             }
             if (event.key === Qt.Key_Up) {
-                move1.y -= 10;         // Yukarı tuşuna basılırsa y konumunu azalt (yukarı hareket)
+                control.applyThrust();  // Yukarı tuşuna basıldığında thrust uygulanır
             }
             if (event.key === Qt.Key_Down) {
                 move1.y += 10;         // Aşağı tuşuna basılırsa y konumunu artır (aşağı hareket)
