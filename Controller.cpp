@@ -23,6 +23,64 @@ Controller::Controller(QObject* parent)
     // -------------------- [ /QTimer Kurulumu ] --------------------
 }
 
+
+// -------------------- [ Nesneyi Sola Hareket Ettirme Fonksiyonu ] --------------------
+// Nesneyi sola hareket ettirir ve sol sınırı aşmasını engeller
+void Controller::moveLeft()
+{
+    setX(m_x - xSpeed); // Nesneyi sola doğru xSpeed (10) kadar kaydır
+    if(m_x < minX) // Eğer konum min sınırdan daha küçükse
+    {
+        setX(minX); // Nesneyi min sınır olan 0'a sabitle
+    }
+}
+// -------------------- [ /moveLeft ] --------------------
+
+
+// -------------------- [ Nesneyi Sağa Hareket Ettirme Fonksiyonu ] --------------------
+// Nesneyi sağa hareket ettirir ve sağ sınırı aşmasını engeller
+void Controller::moveRight()
+{
+    setX(m_x + xSpeed); // Nesneyi sağa doğru xSpeed (10) kadar kaydır
+    if(m_x > maxX) // Eğer konum max sınırı aşarsa
+    {
+        setX(maxX); // Nesneyi max sınır olan 1366'ya sabitle
+    }
+}
+// -------------------- [ /moveRight ] --------------------
+
+
+// -------------------- [ Yukarı Thrust Uygulama Fonksiyonu ] --------------------
+// Yukarı hareket için anlık thrust (itme) uygular
+void Controller::applyThrust()
+{
+    ySpeed = maxThrust;  // ySpeed değerine anlık negatif hız atanır (örneğin -15)
+    // Bu, bir sonraki updateState çağrısında nesnenin yukarı hareket etmesine neden olur.
+    if(m_y < bottomY/1.5) // Nesne, belirlenen üst sınırın (bottomY'nin 1/1.5’i kadar yukarısı) üstüne çıktıysa
+    {
+        ySpeed = 0; // yukarı hareket durdurulur, böylece nesne ekrandan çıkmaz.
+    }
+}
+// -------------------- [ /applyThrust ] --------------------
+
+
+// -------------------- [ Yerçekimi & Thrust Güncelleyici Zamanlayıcı Slot ] --------------------
+// Nesnenin düşme ve yukarı zıplama hareketlerini günceller; yerçekimi ve thrust etkisini uygular
+void Controller::updateState()
+{
+    m_y += ySpeed;         // Y konumu mevcut ySpeed kadar değiştirilir (yukarı/şağı hareket)
+    ySpeed += gravity;     // ySpeed değerine yerçekimi eklenir (her seferde biraz daha aşağı çeker)
+
+    if (m_y > bottomY)     // Eğer nesne alt sınırdan aşağıya düşerse
+    {
+        m_y = bottomY;     // Y konumu alt sınır değeri olan bottomY'ye sabitlenir (örneğin zemin)
+    }
+
+    emit yChanged();       // y konumu değiştiği için QML'e değişiklik bildirimi gönderilir
+}
+// -------------------- [ /updateState ] --------------------
+
+
 // -------------------- [ /Controller Yapıcısı ] --------------------
 
 

@@ -54,55 +54,21 @@ public:
 
     // QML'den çağrılabilir bir fonksiyon (Q_INVOKABLE)
     // x konumunu xSpeed kadar azaltarak sola hareket ettirir
-    Q_INVOKABLE void moveLeft()
-    {
-        setX(m_x - xSpeed); // Nesneyi sola doğru xSpeed (10) kadar kaydır
-        if(m_x < minX) // Eğer konum min sınırdan daha küçükse
-        {
-            setX(minX); // Nesneyi min sınır olan 0'a sabitle
-        }
-    }
+    Q_INVOKABLE void moveLeft();
 
     // QML'den çağrılabilir bir fonksiyon (Q_INVOKABLE)
     // x konumunu xSpeed kadar artırarak sağa hareket ettirir
-    Q_INVOKABLE void moveRight()
-    {
-        setX(m_x + xSpeed); // Nesneyi sağa doğru xSpeed (10) kadar kaydır
-        if(m_x > maxX) // Eğer konum max sınırı aşarsa
-        {
-            setX(maxX); // Nesneyi max sınır olan 1366'ya sabitle
-        }
-    }
+    Q_INVOKABLE void moveRight();
 
-    // -------------------- [ Yeni Fonksiyon: Yukarı Hareket için Thrust Uygulama ] --------------------
     // QML'den çağrılabilir bir fonksiyon olarak tanımlanır (Q_INVOKABLE).
     // Bu fonksiyon, yukarı doğru bir hareket (zıplama veya itiş) sağlamak için ySpeed değerini ani olarak azaltır.
-    Q_INVOKABLE void applyThrust()
-    {
-        ySpeed = maxThrust;  // ySpeed değerine anlık negatif hız atanır (örneğin -15)
-        // Bu, bir sonraki updateState çağrısında nesnenin yukarı hareket etmesine neden olur.
-    }
-    // -------------------- [ /Yeni Fonksiyon: Thrust ] --------------------
+    Q_INVOKABLE void applyThrust();
 
 public slots:
 
-    // -------------------- [ Yerçekimi & Thrust Güncelleyici Zamanlayıcı Slot ] --------------------
     // Bu slot fonksiyonu, belirli aralıklarla çağrılarak nesnenin y eksenindeki hareketini günceller.
     // ySpeed ile yukarı/aşağı hareket sağlanır, gravity ile sürekli bir aşağı çekme etkisi oluşturulur.
-    void updateState()
-    {
-        m_y += ySpeed;         // Y konumu mevcut ySpeed kadar değiştirilir (yukarı/şağı hareket)
-        ySpeed += gravity;     // ySpeed değerine yerçekimi eklenir (her seferde biraz daha aşağı çeker)
-
-        if (m_y > bottomY)     // Eğer nesne alt sınırdan aşağıya düşerse
-        {
-            m_y = bottomY;     // Y konumu alt sınır değeri olan bottomY'ye sabitlenir (örneğin zemin)
-        }
-
-        emit yChanged();       // y konumu değiştiği için QML'e değişiklik bildirimi gönderilir
-    }
-
-   // -------------------- [ /updateState Slot ] --------------------
+    void updateState();
 
 signals:
     // x veya y değeri değiştiğinde QML tarafına bildirim için sinyaller
